@@ -61,8 +61,7 @@ class PendulumSimulator(
         context = CL.clCreateContext(
             contextProperties, 1, arrayOf(clDeviceInfo.deviceId),
             { errInfo, _, _, _ ->
-                System.err.println("[LWJGL] cl_context_callback")
-                System.err.println("\tInfo: $errInfo")
+                logger.error("[LWJGL] cl_context_callback\n\tInfo: $errInfo")
             }, null, errCodeRet
         )
         checkCLError(errCodeRet)
