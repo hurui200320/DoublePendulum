@@ -6,12 +6,13 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.PI
 import kotlin.random.Random
 
-const val pendulumCount = 81920
+const val pendulumCount = 1024
+const val localWorkerNum = 1024
 const val windowWidth = 800.0
 const val windowHeight = 600.0
 const val targetSPS = 200
 
-val pendulumSimulator = PendulumSimulator(pendulumCount, 512, (1.0 / targetSPS).toFloat())
+val pendulumSimulator = PendulumSimulator(pendulumCount, localWorkerNum, (1.0 / targetSPS).toFloat())
 val shutdownFlag = AtomicBoolean(false)
 
 fun main() {
@@ -37,6 +38,7 @@ fun main() {
     // translate second into ms second
     require(targetSPS <= 1000) { "Max time resolution exceeds" }
     val targetStepTime = (1000.0 / targetSPS).toLong()
+    // control SFS
     while (!shutdownFlag.get()) {
         val start = System.currentTimeMillis()
         pendulumSimulator.execute()
